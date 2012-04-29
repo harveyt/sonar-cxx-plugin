@@ -1,5 +1,5 @@
 <profile>
-  <name>Default C++ Profile</name>
+  <name>Default C++ Rats Profile</name>
   <language>c++</language>
   <rules>
     <rule>

@@ -1,5 +1,5 @@
 <profile>
-  <name>Default C++ Profile</name>
+  <name>Default C++ Valgrind Profile</name>
   <language>c++</language>
   <rules>
     <rule>
