@@ -10,7 +10,7 @@ build:
 	mvn package
 
 install:
-	rm $(INSTALL_DIR)/$(PLUGIN)
+	rm -f $(INSTALL_DIR)/$(PLUGIN)
 	cp $(ROOT)/target/$(PLUGIN) $(INSTALL_DIR)
 	sonar restart
 
