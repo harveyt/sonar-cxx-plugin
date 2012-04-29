@@ -17,18 +17,22 @@
  * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.utils;
 
-import org.junit.Test;
-import org.sonar.squid.recognizer.Detector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Set;
-
-public class CxxLanguageFootprintTest {
-  @Test
-  public void shouldProvideTokenizers() {
-    Set<Detector> detectors = (new CxxLanguageFootprint()).getDetectors();
-    assert(detectors != null);
-    assert(detectors.size() == 5);
+/**
+ * Utility class holding various, well, utilities
+ */
+public final class CxxUtils {
+  
+  private CxxUtils() {
+    // only static methods
   }
+
+  /**
+   * Default logger.
+   */
+  public static final Logger LOG = LoggerFactory.getLogger("CxxPlugin");
 }

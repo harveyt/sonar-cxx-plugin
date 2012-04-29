@@ -17,7 +17,7 @@
  * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.utils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,8 +25,6 @@ import java.util.List;
 
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.commons.configuration.Configuration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
@@ -35,18 +33,17 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.RuleQuery;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.SonarException;
+import org.sonar.plugins.cxx.CxxLanguage;
 
 /**
  * {@inheritDoc}
  */
 public abstract class CxxSensor implements Sensor {
-  private static Logger logger = LoggerFactory.getLogger(CxxSensor.class);
   private RuleFinder ruleFinder;
   private Configuration conf = null;
 
-  public CxxSensor() {
-  }
-
+  public CxxSensor() {}
+  
   /**
    * {@inheritDoc}
    */
@@ -77,7 +74,7 @@ public abstract class CxxSensor implements Sensor {
       List<File> reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
                                       reportPathKey(), defaultReportPath());
       for (File report : reports) {
-        logger.info("Parsing report '{}'", report);
+        CxxUtils.LOG.info("Parsing report '{}'", report);
         parseReport(project, context, report);
       }
     } catch (Exception e) {
@@ -89,7 +86,12 @@ public abstract class CxxSensor implements Sensor {
       throw new SonarException(msg, e);
     }
   }
-  
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
+  }
+
   protected List<File> getReports(Configuration conf,
                                   String baseDir,
                                   String reportPathPropertyKey,
@@ -98,8 +100,8 @@ public abstract class CxxSensor implements Sensor {
     if(reportPath == null){
       reportPath = defaultReportPath;
     }
-
-    logger.debug("Using pattern '{}' to find reports", reportPath);
+    
+    CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
 
     DirectoryScanner scanner = new DirectoryScanner();
     String[] includes = new String[1];
@@ -126,11 +128,14 @@ public abstract class CxxSensor implements Sensor {
     if (rule != null) {
       org.sonar.api.resources.File resource =
         org.sonar.api.resources.File.fromIOFile(new File(file), project);
-      Violation violation = Violation.create(rule, resource).setLineId(line).setMessage(msg);
-      context.saveViolation(violation);
-    }
-    else{
-      logger.warn("Cannot find the rule {}, skipping violation", ruleId);
+      if (context.getResource(resource) != null) {
+        Violation violation = Violation.create(rule, resource).setLineId(line).setMessage(msg);
+        context.saveViolation(violation);
+      } else {
+        CxxUtils.LOG.debug("Cannot find the file '{}', skipping violation '{}'", file, msg);
+      }
+    } else {
+      CxxUtils.LOG.warn("Cannot find the rule {}, skipping violation", ruleId);
     }
   }
   

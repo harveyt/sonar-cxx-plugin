@@ -30,7 +30,7 @@ import org.sonar.plugins.cxx.cppcheck.CxxCppCheckProfile;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
 import org.sonar.plugins.cxx.cppncss.CxxCppNcssSensor;
-import org.sonar.plugins.cxx.gcovr.CxxGcovrSensor;
+import org.sonar.plugins.cxx.coverage.CxxGcovrSensor;
 import org.sonar.plugins.cxx.rats.CxxRatsProfile;
 import org.sonar.plugins.cxx.rats.CxxRatsRuleRepository;
 import org.sonar.plugins.cxx.rats.CxxRatsSensor;
@@ -41,6 +41,7 @@ import org.sonar.plugins.cxx.veraxx.CxxVeraxxProfile;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
 import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
+import org.sonar.plugins.cxx.squid.CxxSquidSensor;
 
 @Properties({
     @Property(
@@ -142,7 +143,7 @@ public final class CxxPlugin implements Plugin {
     l.add(CxxLanguage.class);
     l.add(CxxSourceImporter.class);
     l.add(CxxColorizer.class);
-    l.add(CxxLineCounter.class);
+    l.add(CxxSquidSensor.class);
     l.add(CxxCpdMapping.class);
     l.add(CxxRatsRuleRepository.class);
     l.add(CxxRatsSensor.class);
