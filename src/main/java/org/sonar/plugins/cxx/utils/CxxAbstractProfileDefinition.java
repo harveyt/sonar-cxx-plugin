@@ -42,7 +42,7 @@ public abstract class CxxAbstractProfileDefinition extends ProfileDefinition {
   @Override
   public RulesProfile createProfile(ValidationMessages messages) {
     RulesProfile profile = xmlProfileParser.parseResource(getClass().getClassLoader(), profileFileName(), messages);
-    profile.setDefaultProfile(false);
+    profile.setDefaultProfile(true);
     profile.setProvided(true);
     return profile;
   }
