@@ -74,8 +74,12 @@ public abstract class CxxSensor implements Sensor {
       List<File> reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
                                       reportPathKey(), defaultReportPath());
       for (File report : reports) {
-        CxxUtils.LOG.info("Parsing report '{}'", report);
-        parseReport(project, context, report);
+        CxxUtils.LOG.info("Processing report '{}'", report);
+        processReport(project, context, report);
+      }
+      
+      if (reports.isEmpty()) {
+        handleNoReportsCase(context);
       }
     } catch (Exception e) {
       String msg = new StringBuilder()
@@ -93,7 +97,7 @@ public abstract class CxxSensor implements Sensor {
   }
 
   protected List<File> getReports(Configuration conf,
-                                  String baseDir,
+                                  String baseDirPath,
                                   String reportPathPropertyKey,
                                   String defaultReportPath) {
     String reportPath = conf.getString(reportPathPropertyKey, null);
@@ -107,13 +111,13 @@ public abstract class CxxSensor implements Sensor {
     String[] includes = new String[1];
     includes[0] = reportPath;
     scanner.setIncludes(includes);
-    scanner.setBasedir(new File(baseDir));
+    scanner.setBasedir(new File(baseDirPath));
     scanner.scan();
     String[] relPaths = scanner.getIncludedFiles();
 
     List<File> reports = new ArrayList<File>();
     for (String relPath : relPaths) {
-      reports.add(new File(baseDir, relPath));
+      reports.add(new File(baseDirPath, relPath));
     }
     
     return reports;
@@ -139,9 +143,11 @@ public abstract class CxxSensor implements Sensor {
     }
   }
   
-  protected void parseReport(Project project, SensorContext context, File report)
-    throws javax.xml.stream.XMLStreamException, org.jdom.JDOMException, java.io.IOException
+  protected void processReport(Project project, SensorContext context, File report)
+    throws Exception
   {}
+
+  protected void handleNoReportsCase(SensorContext context) {}
   
   protected String reportPathKey() { return ""; };
   

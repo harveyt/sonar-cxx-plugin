@@ -17,25 +17,16 @@
  * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx.veraxx;
+package org.sonar.plugins.cxx.valgrind;
 
-import org.sonar.api.profiles.XMLProfileParser;
-import org.sonar.plugins.cxx.utils.CxxAbstractProfileDefinition;
+import static org.junit.Assert.assertEquals;
 
-/**
- * {@inheritDoc}
- */
-public final class CxxVeraxxProfile extends CxxAbstractProfileDefinition {
+import org.junit.Test;
 
-  /**
-   * {@inheritDoc}
-   */
-  public CxxVeraxxProfile(XMLProfileParser xmlProfileParser) {
-    super(xmlProfileParser);
-  }
-
-  @Override
-  protected String profileFileName() {
-    return "vera++-profile.xml";
+public class CxxValgrindRuleRepositoryTest {
+  @Test
+  public void shouldContainProperNumberOfRules() {
+    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository();
+    assertEquals(repo.createRules().size(), 15);
   }
 }

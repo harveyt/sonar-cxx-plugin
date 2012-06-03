@@ -5,13 +5,13 @@
   <parent>
     <groupId>org.codehaus.sonar-plugins</groupId>
     <artifactId>parent</artifactId>
-    <version>12</version>
+    <version>13</version>
     <relativePath>../parent</relativePath>
   </parent>
 
   <artifactId>sonar-cxx-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
-  <version>0.0.5-SNAPSHOT</version>
+  <version>0.2-SNAPSHOT</version>
   <name>Sonar C++ Plugin</name>
   <description>C++ Plugin for Sonar</description>
   <url>http://docs.codehaus.org/display/SONAR/CXX+PLUGIN</url>
@@ -37,6 +37,10 @@
     <contributor>
       <name>JP Chemali</name>
       <email>jshemali@hotmail.com</email>
+    </contributor>
+    <contributor>
+      <name>Sylvain Hellegouarch</name>
+      <email>sh@defuze.org</email>
     </contributor>
   </contributors>
 
